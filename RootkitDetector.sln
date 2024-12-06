@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RootkitDetector", "RootkitDetector\RootkitDetector.vcxproj", "{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Debug|ARM64.Build.0 = Debug|ARM64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Debug|x64.ActiveCfg = Debug|x64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Debug|x64.Build.0 = Debug|x64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Debug|x64.Deploy.0 = Debug|x64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Release|ARM64.ActiveCfg = Release|ARM64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Release|ARM64.Build.0 = Release|ARM64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Release|ARM64.Deploy.0 = Release|ARM64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Release|x64.ActiveCfg = Release|x64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Release|x64.Build.0 = Release|x64
+		{08B2C99F-AA0B-4D7A-979C-ADABF4BE1931}.Release|x64.Deploy.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C5CEB822-92CD-4B9F-896A-C09F2EC103EA}
+	EndGlobalSection
+EndGlobal
