@@ -39,13 +39,6 @@ EXTERN_C NTSTATUS ObReferenceObjectByName(
     OUT PVOID* ObjectPtr
 );
 
-/**
- * compares two wchar strings without case sensitivity
- *
- * @param s1 first string
- * @param s2 second string
- * @return INT 0 if both string are qual
- */
 INT
 _strcmpi_w(const wchar_t* s1, const wchar_t* s2);
 
@@ -57,3 +50,15 @@ UkGetThreadStartAddress(PETHREAD ThreadObj);
 
 VOID
 UkSleepMs(INT milliseconds);
+
+PVOID
+FindPattern(
+    PCUCHAR pattern,
+    UCHAR wildcard,
+    ULONG_PTR len,
+    const PVOID base,
+    ULONG_PTR size,
+    PULONG foundIndex,
+    ULONG relativeOffset,
+    bool reversed = false
+);

@@ -1,83 +1,58 @@
-#pragma once
-
-#include <ntifs.h>
-#include "common.h"
+#include "SsdtScanner.h"
 #include "utils.h"
 
-// Global Variables
-PSYSTEM_SERVICE_DESCRIPTOR_TABLE ssdt;
-PVOID ntBase;
-ULONG ntSize;
+SsdtScanner::SsdtScanner()
+{
+    DbgPrint("[%s] created\n", GetName());
 
-BOOLEAN g_SSDTHooksDetection = TRUE;
-KEVENT g_SSDTHooksDetectionFinishedEvent;
+    NTSTATUS status = GetSSDTAddress();
+    if (!NT_SUCCESS(status)) {
+        DbgPrint("[%s] Failed to get SSDT address\n", GetName());
+    }
+}
 
-/*
-	A function that scans the SSDT for hooks.
-	Input: A list to store the results at.
-	Output: Whether the function was successful or not.
-*/
-NTSTATUS ScanSSDT()
+SsdtScanner::~SsdtScanner()
+{
+    DbgPrint("[%s] destroyed\n", GetName());
+}
+
+const char* SsdtScanner::GetName()
+{
+    return "SSDT_Scanner";
+}
+
+NTSTATUS SsdtScanner::ExecuteScan()
 {
 	if (ssdt == nullptr)
 	{
-		DbgPrint(PREFIX "[-] Ssdt not found\n");
+		DbgPrint("[%s] Failed to execute scan: ssdt not found\n", GetName());
 		return STATUS_UNSUCCESSFUL;
 	}
 
-	ULONG CurrentSyscallRoutine = 0;
+    DbgPrint("[%s] Executing scan for hidden threads\n", GetName());
 
-	// Scan SSDT routines whether they are in ntoskrnl range or not
-	for (ULONG i = 0; i < ssdt->NumberOfServices; ++i)
-	{
-		DbgPrint(PREFIX "[i] ssdt->NumberOfServices %d\n", ssdt->NumberOfServices);
+    while (running)
+    {
+        DbgPrint(PREFIX "Starting to look for hidden threads\n");
+        ScanSSDT();
+        UkSleepMs(3000);
+    }
 
-		CurrentSyscallRoutine = *(PULONG)((ULONG)ssdt + i * sizeof(ULONG));
-		if (!(CurrentSyscallRoutine >= (ULONG)ntBase && CurrentSyscallRoutine <= (ULONG)ntBase + ntSize))
-		{
-			// is hooked
-			DbgPrint(PREFIX "[-] Found SSDT Hook at syscall index %d\n", i);
-		}
-		else
-		{
-			// is norm
-			DbgPrint(PREFIX "[-] Syscall index %d not hooked\n", i);
-		}
-	}
-
-	return STATUS_SUCCESS;
+    DbgPrint("[%s] Scan completed\n", GetName());
+    return STATUS_SUCCESS;
 }
 
-/**
- * Scans for SSDT hooks
- */
-VOID DetectSSDTHooks(IN PVOID StartContext)
-{
-	UNREFERENCED_PARAMETER(StartContext);
-
-	KeInitializeEvent(&g_SSDTHooksDetectionFinishedEvent, NotificationEvent, FALSE);
-
-	NTSTATUS status = GetSSDTAddress();
-	if (!NT_SUCCESS(status))
-	{
-		DbgPrint("[-] Failed to get SSDT address\n");
-		return;
-	}
-
-	do
-	{
-		DbgPrint(PREFIX "Starting to look for SSDT hooks\n");
-		ScanSSDT();
-		UkSleepMs(3000);
-
-	} while (g_SSDTHooksDetection);
-
-	KeSetEvent(&g_SSDTHooksDetectionFinishedEvent, 0, TRUE);
-	KeWaitForSingleObject(&g_SSDTHooksDetectionFinishedEvent, Executive, KernelMode, FALSE, NULL);
-	PsTerminateSystemThread(STATUS_SUCCESS);
-}
-
-NTSTATUS GetSSDTAddress() {
+/*
+* Description:
+* GetSSDTAddress is responsible for getting the SSDT's location.
+*
+* Parameters:
+* There are no parameters.
+*
+* Returns:
+* @status [NTSTATUS] -- STATUS_SUCCESS if found, else error.
+*/
+NTSTATUS SsdtScanner::GetSSDTAddress() {
 	ULONG infoSize = 0;
 	PVOID ssdtRelativeLocation = NULL;
 	PVOID ntoskrnlBase = NULL;
@@ -153,4 +128,36 @@ NTSTATUS GetSSDTAddress() {
 
 	ExFreePoolWithTag(info, DRIVER_TAG);
 	return status;
+}
+
+// A function that scans the SSDT for hooks.
+NTSTATUS SsdtScanner::ScanSSDT()
+{
+	if (ssdt == nullptr)
+	{
+		DbgPrint(PREFIX "[-] Ssdt not found\n");
+		return STATUS_UNSUCCESSFUL;
+	}
+
+	ULONG CurrentSyscallRoutine = 0;
+
+	DbgPrint(PREFIX "[i] ssdt->NumberOfServices %llu\n", ssdt->NumberOfServices);
+
+	// Scan SSDT routines whether they are in ntoskrnl range or not
+	for (ULONG i = 0; i < ssdt->NumberOfServices; ++i)
+	{
+		CurrentSyscallRoutine = *(PULONG)((ULONG)ssdt + i * sizeof(ULONG));
+		if (!(CurrentSyscallRoutine >= (ULONG)ntBase && CurrentSyscallRoutine <= (ULONG)ntBase + ntSize))
+		{
+			// is hooked
+			DbgPrint(PREFIX "[-] Found SSDT Hook at syscall index %d\n", i);
+		}
+		else
+		{
+			// is norm
+			DbgPrint(PREFIX "[-] Syscall index %d not hooked\n", i);
+		}
+	}
+
+	return STATUS_SUCCESS;
 }

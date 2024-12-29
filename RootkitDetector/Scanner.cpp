@@ -10,7 +10,7 @@ Scanner::~Scanner()
 VOID Scanner::Routine(PVOID StartContext)
 {
     Scanner* instance = static_cast<Scanner*>(StartContext);
-    // todo: macros for each scanner
+    // todo: macros fir identifier for each scanner
     DbgPrint("[%s] %s\n", instance->GetName(), "Thread started");
 
     instance->ExecuteScan();

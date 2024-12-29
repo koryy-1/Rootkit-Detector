@@ -22,10 +22,9 @@
     <ClCompile Include="Driver.cpp" />
     <ClCompile Include="DriverObjectScanner.cpp" />
     <ClCompile Include="HiddenThreadScanner.cpp" />
-    <ClCompile Include="IDT.cpp" />
     <ClCompile Include="Scanner.cpp" />
     <ClCompile Include="ScannerManager.cpp" />
-    <ClCompile Include="SSDT.cpp" />
+    <ClCompile Include="SsdtScanner.cpp" />
     <ClCompile Include="SystemThreadScanner.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
@@ -40,6 +39,7 @@
     <ClInclude Include="Scanner.h" />
     <ClInclude Include="ScannerManager.h" />
     <ClInclude Include="SSDT.h" />
+    <ClInclude Include="SsdtScanner.h" />
     <ClInclude Include="SystemThreadScanner.h" />
     <ClInclude Include="system_threads.h" />
     <ClInclude Include="types.h" />
@@ -125,7 +125,7 @@
       <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
     </DriverSign>
     <Link>
-      <AdditionalDependencies>$(DDK_LIB_PATH)aux_klib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

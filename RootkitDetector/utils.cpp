@@ -1,5 +1,12 @@
 #include "utils.h"
 
+/**
+ * compares two wchar strings without case sensitivity
+ *
+ * @param s1 first string
+ * @param s2 second string
+ * @return INT 0 if both string are qual
+ */
 INT
 _strcmpi_w(const wchar_t* s1, const wchar_t* s2)
 {
@@ -82,4 +89,78 @@ UkSleepMs(INT milliseconds)
 	LARGE_INTEGER interval;
 	interval.QuadPart = -1 * (LONGLONG)(milliseconds * 10000);
 	KeDelayExecutionThread(KernelMode, FALSE, &interval);
+}
+
+/*
+* Description:
+* FindPattern is responsible for finding a pattern in memory range.
+*
+* Parameters:
+* @pattern		  [PCUCHAR]	    -- Pattern to search for.
+* @wildcard		  [UCHAR]		-- Used wildcard.
+* @len			  [ULONG_PTR]	-- Pattern length.
+* @base			  [const PVOID] -- Base address for searching.
+* @size			  [ULONG_PTR]	-- Address range to search in.
+* @foundIndex	  [PULONG]	    -- Index of the found signature.
+* @relativeOffset [ULONG]		-- If wanted, relative offset to get from.
+* @reversed		  [bool]		-- If want to reverse search or regular search.
+*
+* Returns:
+* @address		  [PVOID]	    -- Pattern's address if found, else 0.
+*/
+PVOID
+FindPattern(
+	PCUCHAR pattern,
+	UCHAR wildcard,
+	ULONG_PTR len,
+	const PVOID base,
+	ULONG_PTR size,
+	PULONG foundIndex,
+	ULONG relativeOffset,
+	bool reversed
+)
+{
+	bool found = false;
+
+	if (pattern == NULL || base == NULL || len == 0 || size == 0)
+		return NULL;
+
+	if (!reversed) {
+		for (ULONG i = 0; i < size; i++) {
+			found = true;
+
+			for (ULONG j = 0; j < len; j++) {
+				if (pattern[j] != wildcard && pattern[j] != ((PCUCHAR)base)[i + j]) {
+					found = false;
+					break;
+				}
+			}
+
+			if (found) {
+				if (foundIndex)
+					*foundIndex = i;
+				return (PUCHAR)base + i + relativeOffset;
+			}
+		}
+	}
+	else {
+		for (int i = (int)size; i >= 0; i--) {
+			found = true;
+
+			for (ULONG j = 0; j < len; j++) {
+				if (pattern[j] != wildcard && pattern[j] != *((PCUCHAR)base - i + j)) {
+					found = false;
+					break;
+				}
+			}
+
+			if (found) {
+				if (foundIndex)
+					*foundIndex = i;
+				return (PUCHAR)base - i - relativeOffset;
+			}
+		}
+	}
+
+	return NULL;
 }

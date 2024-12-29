@@ -66,15 +66,12 @@
     <ClInclude Include="DriverObjectScanner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SsdtScanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Driver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SSDT.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IDT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scanner.cpp">
@@ -93,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DriverObjectScanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SsdtScanner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
