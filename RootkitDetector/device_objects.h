@@ -26,14 +26,14 @@ ScanDriverObjects(PDRIVER_OBJECT drvObj, PULONG_PTR pHashBucketLock, POBJECT_DIR
             PDRIVER_OBJECT driver = (PDRIVER_OBJECT)entry->Object;
 
             // Check memory of DriverStart
-            if (UkGetDriverForAddress((ULONG_PTR)driver->DriverStart, drvObj) == NULL)
+            if (GetDriverForAddress((ULONG_PTR)driver->DriverStart, drvObj) == NULL)
             {
                 DbgPrint(PREFIX "[DeviceObjectScanner] -> Detected DriverObject.DriverStart pointing to unbacked or invalid region %ws @ 0x%llx\n",
                     driver->DriverName.Buffer,
                     (ULONG_PTR)driver->DriverStart
                 );
             }
-            if (UkGetDriverForAddress((ULONG_PTR)driver->DriverInit, drvObj) == NULL)
+            if (GetDriverForAddress((ULONG_PTR)driver->DriverInit, drvObj) == NULL)
             {
                 DbgPrint(PREFIX "[DeviceObjectScanner] -> Detected DriverEntry pointing to unbacked region %ws @ 0x%llx\n",
                     driver->DriverName.Buffer,
@@ -93,7 +93,7 @@ UkCheckDriverObjects(IN PVOID StartContext)
     {
         DbgPrint(PREFIX "Scanning DriverObjects...\n");
         //ScanDriverObjects(drvObj, &g_hashBucketLock, directoryObject);
-        UkSleepMs(5000);
+        SleepMs(5000);
 
     } while (g_scanDriverObjects);
 

@@ -52,7 +52,7 @@ NTSTATUS DriverObjectScanner::ExecuteScan()
     {
         DbgPrint(PREFIX "Starting driver object scan\n");
         ScanDriverObjects(driverObject, pHashBucketLock, directoryObject);
-        UkSleepMs(5000);
+        SleepMs(5000);
     }
 
     DbgPrint("[%s] Scan completed\n", GetName());

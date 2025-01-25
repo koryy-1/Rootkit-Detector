@@ -23,8 +23,8 @@ NTSTATUS HiddenThreadScanner::ExecuteScan()
     while (running)
     {
         DbgPrint(PREFIX "Starting to look for hidden threads\n");
-        UkWalkSystemProcessThreads();
-        UkSleepMs(3000);
+        WalkSystemProcessThreads();
+        SleepMs(3000);
     }
 
     DbgPrint("[%s] Scan completed\n", GetName());

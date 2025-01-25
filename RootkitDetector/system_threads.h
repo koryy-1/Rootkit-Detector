@@ -28,10 +28,10 @@ ScanSystemThreads(PDRIVER_OBJECT drvObj)
 		}
 
 		// Resolve start address
-		ULONG_PTR startAddress = UkGetThreadStartAddress(ThreadObj);
+		ULONG_PTR startAddress = GetThreadStartAddress(ThreadObj);
 		if (startAddress != 0)
 		{
-			if (UkGetDriverForAddress(startAddress, drvObj) == NULL)
+			if (GetDriverForAddress(startAddress, drvObj) == NULL)
 			{
 				DbgPrint(PREFIX "[SystemThreadScanner] -> Detected system thread start address pointing to unbacked region: TID: %lu @ 0x%llx\n", tid, startAddress);
 			}
@@ -57,7 +57,7 @@ UkScanSystemThreads(IN PVOID StartContext)
 	{
 		DbgPrint(PREFIX "Scanning running system threads...\n");
 		//ScanSystemThreads(drvObj);
-		UkSleepMs(5000);
+		SleepMs(5000);
 
 	} while (g_scanSystemThreads);
 

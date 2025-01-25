@@ -43,13 +43,13 @@ INT
 _strcmpi_w(const wchar_t* s1, const wchar_t* s2);
 
 PKLDR_DATA_TABLE_ENTRY
-UkGetDriverForAddress(ULONG_PTR address, PDRIVER_OBJECT drvObj);
+GetDriverForAddress(ULONG_PTR address, PDRIVER_OBJECT drvObj);
 
 ULONG_PTR
-UkGetThreadStartAddress(PETHREAD ThreadObj);
+GetThreadStartAddress(PETHREAD ThreadObj);
 
 VOID
-UkSleepMs(INT milliseconds);
+SleepMs(INT milliseconds);
 
 PVOID
 FindPattern(

@@ -68,7 +68,7 @@ VOID DetectSSDTHooks(IN PVOID StartContext)
 	{
 		DbgPrint(PREFIX "Starting to look for SSDT hooks\n");
 		ScanSSDT();
-		UkSleepMs(3000);
+		SleepMs(3000);
 
 	} while (g_SSDTHooksDetection);
 

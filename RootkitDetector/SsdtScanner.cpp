@@ -35,7 +35,7 @@ NTSTATUS SsdtScanner::ExecuteScan()
     {
         DbgPrint(PREFIX "Starting to look for hidden threads\n");
         ScanSSDT();
-        UkSleepMs(3000);
+        SleepMs(3000);
     }
 
     DbgPrint("[%s] Scan completed\n", GetName());

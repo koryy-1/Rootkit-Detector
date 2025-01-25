@@ -16,7 +16,7 @@ typedef struct _myKTHREAD
 } myKTHREAD, * myPKTHREAD;
 
 NTSTATUS
-UkWalkSystemProcessThreads()
+WalkSystemProcessThreads()
 {
 
     auto currentThread = KeGetCurrentThread();
@@ -56,8 +56,8 @@ UkDetectHiddenThreads(IN PVOID StartContext)
     do
     {
         DbgPrint(PREFIX "Starting to look for hidden threads\n");
-        UkWalkSystemProcessThreads();
-        UkSleepMs(3000);
+        WalkSystemProcessThreads();
+        SleepMs(3000);
 
     } while (g_hidingDetection);
 

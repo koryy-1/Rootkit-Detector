@@ -32,7 +32,7 @@ _strcmpi_w(const wchar_t* s1, const wchar_t* s2)
 }
 
 PKLDR_DATA_TABLE_ENTRY
-UkGetDriverForAddress(ULONG_PTR address, PDRIVER_OBJECT drvObj)
+GetDriverForAddress(ULONG_PTR address, PDRIVER_OBJECT drvObj)
 {
 	if (!address)
 	{
@@ -56,7 +56,7 @@ UkGetDriverForAddress(ULONG_PTR address, PDRIVER_OBJECT drvObj)
 }
 
 ULONG_PTR
-UkGetThreadStartAddress(PETHREAD ThreadObj)
+GetThreadStartAddress(PETHREAD ThreadObj)
 {
 	HANDLE hThread;
 	ULONG_PTR startAddress;
@@ -84,7 +84,7 @@ UkGetThreadStartAddress(PETHREAD ThreadObj)
 }
 
 VOID
-UkSleepMs(INT milliseconds)
+SleepMs(INT milliseconds)
 {
 	LARGE_INTEGER interval;
 	interval.QuadPart = -1 * (LONGLONG)(milliseconds * 10000);

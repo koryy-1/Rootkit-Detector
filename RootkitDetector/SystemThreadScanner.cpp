@@ -24,7 +24,7 @@ NTSTATUS SystemThreadScanner::ExecuteScan()
     {
         DbgPrint(PREFIX "Starting system threads scan\n");
         ScanSystemThreads(driverObject);
-        UkSleepMs(5000);
+        SleepMs(5000);
     }
 
     DbgPrint("[%s] Scan completed\n", GetName());
